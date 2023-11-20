@@ -1,0 +1,430 @@
+----------------------------------------code------------------------------------------------------------
+#include <bits/stdc++.h>
+using namespace std;
+
+
+void printSolution(vector<vector<char>>& board, int n)
+{
+ for (int i = 0; i < n; i++) {
+  for (int j = 0; j < n; j++)
+  if(board[i][j] == 'Q')
+   cout << "Q ";
+  else 
+            cout<<". ";
+  printf("\n");
+ }
+}
+
+bool isSafe(vector<vector<char>>& board, int row, int col, int n)
+{
+ int i, j;
+
+ // Check this row on left side
+ for (i = 0; i < col; i++)
+  if (board[row][i] == 'Q')
+   return false;
+
+ // Check upper diagonal on left side
+ for (i = row, j = col; i >= 0 && j >= 0; i--, j--)
+  if (board[i][j] == 'Q')
+   return false;
+
+ // Check lower diagonal on left side
+ for (i = row, j = col; j >= 0 && i < n; i++, j--)
+  if (board[i][j] == 'Q')
+   return false;
+
+ return true;
+}
+
+bool solveNQueens(vector<vector<char>>& board, int col, int n)
+{
+
+ if (col >= n) return true;
+
+    cout << "\n\nChecking for column number : " << col <<endl;
+
+ for (int i = 0; i < n; i++) {
+
+        cout << "\nChecking if the queen can be placed in " << "[ " << i << " " <<col << " ]" << endl; 
+  if (isSafe(board, i, col, n)) {
+            
+   board[i][col] = 'Q';
+            cout << "Placed the queen at " << i << " " << col << " !"<< endl;
+            cout << "\nThe board will be : \n\n";
+
+            printSolution(board, n);
+
+   if (solveNQueens(board, col + 1, n)) {
+    return true;
+            }
+
+            cout << "\nBacktracking to check the other possibility \n\n";
+   board[i][col] = '.'; // BACKTRACK
+
+            cout << "Hence the board will be : \n\n";
+            printSolution(board, n);
+  }
+        else {
+            cout << "\n\nNot possible to place the queen at : [ " << i << " " << col << " ]"<<endl;
+            printSolution(board, n);
+        }
+ }
+
+ return false;
+}
+
+bool solveNQ(int n)
+{
+ vector<vector<char>> board(n, vector<char>(n, '.'));
+
+ if (solveNQueens(board, 0, n) == false) {
+  cout << "Solution does not exist";
+  return false;
+ }
+    else {
+        cout << "\n\nHence, the final board will be this : \n\n";
+     printSolution(board, n);
+        cout << "\n";
+    }
+ return true;
+}
+
+int main()
+{
+    int n;
+    cout << "Enter the number of columns : ";
+    cin >> n;
+ solveNQ(n);
+ return 0;
+}
+----------------------------------------output----------------------------------------------------------
+1-->
+Enter the number of columns : 4
+
+
+Checking for column number : 0
+
+Checking if the queen can be placed in [ 0 0 ]
+Placed the queen at 0 0 !
+
+The board will be : 
+
+Q . . . 
+. . . . 
+. . . . 
+. . . . 
+
+
+Checking for column number : 1
+
+Checking if the queen can be placed in [ 0 1 ]
+
+
+Not possible to place the queen at : [ 0 1 ]
+Q . . . 
+. . . . 
+. . . . 
+. . . . 
+
+Checking if the queen can be placed in [ 1 1 ]
+
+
+Not possible to place the queen at : [ 1 1 ]
+Q . . . 
+. . . . 
+. . . . 
+. . . . 
+
+Checking if the queen can be placed in [ 2 1 ]
+Placed the queen at 2 1 !
+
+The board will be : 
+
+Q . . . 
+. . . . 
+. Q . . 
+. . . . 
+
+
+Checking for column number : 2
+
+Checking if the queen can be placed in [ 0 2 ]
+
+
+Not possible to place the queen at : [ 0 2 ]
+Q . . . 
+. . . . 
+. Q . . 
+. . . . 
+
+Checking if the queen can be placed in [ 1 2 ]
+
+
+Not possible to place the queen at : [ 1 2 ]
+Q . . . 
+. . . . 
+. Q . . 
+. . . . 
+
+Checking if the queen can be placed in [ 2 2 ]
+
+
+Not possible to place the queen at : [ 2 2 ]
+Q . . . 
+. . . . 
+. Q . . 
+. . . . 
+
+Checking if the queen can be placed in [ 3 2 ]
+
+
+Not possible to place the queen at : [ 3 2 ]
+Q . . . 
+. . . . 
+. Q . . 
+. . . . 
+
+Backtracking to check the other possibility 
+
+Hence the board will be : 
+
+Q . . . 
+. . . . 
+. . . . 
+. . . . 
+
+Checking if the queen can be placed in [ 3 1 ]
+Placed the queen at 3 1 !
+
+The board will be : 
+
+Q . . . 
+. . . . 
+. . . . 
+. Q . . 
+
+
+Checking for column number : 2
+
+Checking if the queen can be placed in [ 0 2 ]
+
+
+Not possible to place the queen at : [ 0 2 ]
+Q . . . 
+. . . . 
+. . . . 
+. Q . . 
+
+Checking if the queen can be placed in [ 1 2 ]
+Placed the queen at 1 2 !
+
+The board will be : 
+
+Q . . . 
+. . Q . 
+. . . . 
+. Q . . 
+
+
+Checking for column number : 3
+
+Checking if the queen can be placed in [ 0 3 ]
+
+
+Not possible to place the queen at : [ 0 3 ]
+Q . . . 
+. . Q . 
+. . . . 
+. Q . . 
+
+Checking if the queen can be placed in [ 1 3 ]
+
+
+Not possible to place the queen at : [ 1 3 ]
+Q . . . 
+. . Q . 
+. . . . 
+. Q . . 
+
+Checking if the queen can be placed in [ 2 3 ]
+
+
+Not possible to place the queen at : [ 2 3 ]
+Q . . . 
+. . Q . 
+. . . . 
+. Q . . 
+
+Checking if the queen can be placed in [ 3 3 ]
+
+
+Not possible to place the queen at : [ 3 3 ]
+Q . . . 
+. . Q . 
+. . . . 
+. Q . . 
+
+Backtracking to check the other possibility 
+
+Hence the board will be : 
+
+Q . . . 
+. . . . 
+. . . . 
+. Q . . 
+
+Checking if the queen can be placed in [ 2 2 ]
+
+
+Not possible to place the queen at : [ 2 2 ]
+Q . . . 
+. . . . 
+. . . . 
+. Q . . 
+
+Checking if the queen can be placed in [ 3 2 ]
+
+
+Not possible to place the queen at : [ 3 2 ]
+Q . . . 
+. . . . 
+. . . . 
+. Q . . 
+
+Backtracking to check the other possibility 
+
+Hence the board will be : 
+
+Q . . . 
+. . . . 
+. . . . 
+. . . . 
+
+Backtracking to check the other possibility 
+
+Hence the board will be : 
+
+. . . . 
+. . . . 
+. . . . 
+. . . . 
+
+Checking if the queen can be placed in [ 1 0 ]
+Placed the queen at 1 0 !
+
+The board will be : 
+
+. . . . 
+Q . . . 
+. . . . 
+. . . . 
+
+
+Checking for column number : 1
+
+Checking if the queen can be placed in [ 0 1 ]
+
+
+Not possible to place the queen at : [ 0 1 ]
+. . . . 
+Q . . . 
+. . . . 
+. . . . 
+
+Checking if the queen can be placed in [ 1 1 ]
+
+
+Not possible to place the queen at : [ 1 1 ]
+. . . . 
+Q . . . 
+. . . . 
+. . . . 
+
+Checking if the queen can be placed in [ 2 1 ]
+
+
+Not possible to place the queen at : [ 2 1 ]
+. . . . 
+Q . . . 
+. . . . 
+. . . . 
+
+Checking if the queen can be placed in [ 3 1 ]
+Placed the queen at 3 1 !
+
+The board will be : 
+
+. . . . 
+Q . . . 
+. . . . 
+. Q . . 
+
+
+Checking for column number : 2
+
+Checking if the queen can be placed in [ 0 2 ]
+Placed the queen at 0 2 !
+
+The board will be : 
+
+. . Q . 
+Q . . . 
+. . . . 
+. Q . . 
+
+
+Checking for column number : 3
+
+Checking if the queen can be placed in [ 0 3 ]
+
+
+Not possible to place the queen at : [ 0 3 ]
+. . Q . 
+Q . . . 
+. . . . 
+. Q . . 
+
+Checking if the queen can be placed in [ 1 3 ]
+
+
+Not possible to place the queen at : [ 1 3 ]
+. . Q . 
+Q . . . 
+. . . . 
+. Q . . 
+
+Checking if the queen can be placed in [ 2 3 ]
+Placed the queen at 2 3 !
+
+The board will be : 
+
+. . Q . 
+Q . . . 
+. . . Q 
+. Q . . 
+
+
+Hence, the final board will be this : 
+
+. . Q . 
+Q . . . 
+. . . Q 
+. Q . . 
+
+
+2-->
+
+Enter the number of columns : 4
+
+the final board will be this : 
+
+Q . . . . . . . 
+. . . . . . Q . 
+. . . . Q . . . 
+. . . . . . . Q 
+. Q . . . . . . 
+. . . Q . . . . 
+. . . . . Q . . 
+. . Q . . . . . 
+

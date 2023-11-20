@@ -1,0 +1,90 @@
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;limits.h&gt;
+
+using namespace std;
+
+struct Edge
+{
+int source, destination, weight;
+};
+
+void bellmanFord(vector&lt;Edge&gt; &amp;edges, int V, int E, int source)
+{
+vector&lt;int&gt; distance(V, INT_MAX);
+vector&lt;int&gt; predecessor(V, -1);
+
+distance[source] = 0;
+
+for (int i = 0; i &lt; V - 1; ++i)
+{
+for (int j = 0; j &lt; E; ++j)
+{
+int u = edges[j].source;
+int v = edges[j].destination;
+int w = edges[j].weight;
+
+if (distance[u] != INT_MAX &amp;&amp; distance[u] + w &lt; distance[v])
+{
+distance[v] = distance[u] + w;
+predecessor[v] = u;
+}
+
+}
+}
+
+for (int i = 0; i &lt; V; ++i)
+{
+if (i != source) //confuse
+{
+cout &lt;&lt; &quot;Shortest path from &quot; &lt;&lt; source &lt;&lt; &quot; to &quot; &lt;&lt; i &lt;&lt; &quot;: &quot;;
+
+// Build and print the shortest path
+int current = i;
+vector&lt;int&gt; path;
+while (current != -1) // confusing
+{
+path.push_back(current);
+current = predecessor[current];
+}
+
+// Print the path in reverse order
+for (int j = path.size() - 1; j &gt;= 0; --j) // here path
+{
+cout &lt;&lt; path[j];
+if (j != 0)
+{
+cout &lt;&lt; &quot; -&gt; &quot;;
+}
+}
+
+cout &lt;&lt; &quot; Distance = &quot; &lt;&lt; distance[i] &lt;&lt; &quot;\n&quot;;
+}
+}
+
+}
+
+int main()
+{
+int V, E;
+cout &lt;&lt; &quot;Enter the number of vertices: &quot;;
+cin &gt;&gt; V;
+cout &lt;&lt; &quot;Enter the number of edges: &quot;;
+cin &gt;&gt; E;
+
+vector&lt;Edge&gt; edges(E);
+
+cout &lt;&lt; &quot;Enter the edges (source, destination, weight):\n&quot;;
+for (int i = 0; i &lt; E; ++i)
+{
+cin &gt;&gt; edges[i].source &gt;&gt; edges[i].destination &gt;&gt; edges[i].weight;
+}
+
+int source;
+cout &lt;&lt; &quot;Enter the source vertex: &quot;;
+cin &gt;&gt; source;
+
+bellmanFord(edges, V, E, source);
+
+return 0;
+}
